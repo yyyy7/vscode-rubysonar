@@ -1,57 +1,77 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import * as vscode from "vscode";
-import * as path from "path";
-import * as net from "net";
-import {
-  LanguageClient,
-  LanguageClientOptions,
-  ServerOptions,
-  Middleware
-} from "vscode-languageclient";
-import { workspace } from "vscode";
+'use strict';
 
-let client: LanguageClient;
+import * as fs from "fs";
+import * as path from 'path';
+import * as net from 'net';
+import * as child_process from "child_process";
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
+import { workspace, Disposable, ExtensionContext } from 'vscode';
+import { LanguageClient, LanguageClientOptions, SettingMonitor, StreamInfo } from 'vscode-languageclient';
 
-/**
- * @param {vscode.ExtensionContext} context
- */
-function activate(context: {
-  asAbsolutePath: (arg0: string) => void;
-  subscriptions: vscode.Disposable[];
-}) {
-  let serverModule = context.asAbsolutePath(
-    path.join("server", "out", "server.js")
-  );
-  let debugOptions = { execArgv: ["--nolazy", "--inspect=6009"] };
+export function activate(context: ExtensionContext) {
 
-  var selectClient = function(): ServerOptions {
-    return () => {
-      return new Promise(resolve => {
-        let socket = net.createConnection(8888, "localhost");
-        resolve({
-          reader: socket,
-          writer: socket
+	function createServer(): Promise<StreamInfo> {
+		return new Promise((resolve, reject) => {
+			var server = net.createServer((socket) => {
+				console.log("Creating server");
+
+				resolve({
+					reader: socket,
+					writer: socket
+				});
+
+				socket.on('end', () => console.log("Disconnected"));
+			}).on('error', (err) => {
+				// handle errors here
+				throw err;
+			});
+
+
+			// grab a random port.
+			server.listen(() => {
+				// Start the child java process
+				let options = { cwd: workspace.rootPath };
+
+				let args = [
+					'-jar',
+				  '/Users/frontier/rubysonar/target/rubysonar-0.1-SNAPSHOT-jar-with-dependencies.jar',
+					server.address().port.toString()
+				];
+
+        console.log(args);
+        console.log(options);
+        let process = child_process.spawn('/usr/bin/java', args, options);
+        process.stdout.on('data', function (chunk) {
+            console.log(chunk.toString());
         });
-      });
-    };
-  };
+        process.stderr.on('data', (data) => {
+            console.log(data.toString());
+        });
+			});
+		});
+	};
 
-  let clientOptions = {
-    documentSelector: [{ scheme: "file", language: "ruby" }],
-    synchronize: {
-      fileEvents: workspace.createFileSystemWatcher("{**/*.rb}")
-    }
-  };
-  let serverOptions = selectClient();
+	// Options to control the language client
+	let clientOptions: LanguageClientOptions = {
+		// Register the server for plain text documents
+		documentSelector: [{ scheme: "file", language: "ruby" }],
+		synchronize: {
+			// Synchronize the setting section 'languageServerExample' to the server
+			configurationSection: 'languageServerExample',
+			// Notify the server about file changes to '.clientrc files contain in the workspace
+			fileEvents: workspace.createFileSystemWatcher("{**/*.rb}")
+		}
+	}
 
-  client = new LanguageClient("vsc-rubysonar", serverOptions, clientOptions);
+	// Create the language client and start the client.
+	let disposable = new LanguageClient('languageServerExample', 'Language Server Example', createServer, clientOptions).start();
 
-  context.subscriptions.push(client.start());
+	// Push the disposable to the context's subscriptions so that the 
+	// client can be deactivated on extension deactivation
+	context.subscriptions.push(disposable);
 }
+
+
 exports.activate = activate;
 
 // this method is called when your extension is deactivated
