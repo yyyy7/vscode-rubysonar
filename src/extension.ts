@@ -22,7 +22,6 @@ export function activate(context: ExtensionContext) {
 
 				socket.on('end', () => console.log("Disconnected"));
 			}).on('error', (err) => {
-				// handle errors here
 				throw err;
 			});
 
