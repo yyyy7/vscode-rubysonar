@@ -1,4 +1,4 @@
-# VS Code Rubysonar
+# VS Code Rubysonari
 
 
 ## Features
@@ -8,11 +8,11 @@
 
 ## Requirements
 
-  [rubysonar](https://github.com/yyyy7/rubysonar)
+  [rubysonari](https://github.com/yyyy7/rubysonari)
 
 ## Extension Settings
 
 This extension contributes the following settings:
-* `rubysonar.jarPath`: Path to the rubysonar jar file. eg: '/Users/username/rubysonar/xxxx.jar'
+* `rubysonari.jarPath`: Path to the rubysonari jar file. eg: '/Users/username/rubysonari/xxxx.jar'
 
 
