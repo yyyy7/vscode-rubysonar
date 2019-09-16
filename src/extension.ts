@@ -31,12 +31,12 @@ export function activate(context: ExtensionContext) {
 
 			server.listen(() => {
 				let options = { cwd: workspace.rootPath };
-				let jarPath = workspace.getConfiguration("rubysonar").jarPath;
+				let jarPath = workspace.getConfiguration("rubysonari").jarPath;
 				console.log(jarPath);
 
 				let args = [
 					'-jar',
-					jarPath, 
+					jarPath,
 					server.address().port.toString()
 				];
 
