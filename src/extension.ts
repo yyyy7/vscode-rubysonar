@@ -31,7 +31,7 @@ export function activate(context: ExtensionContext) {
 
 			server.listen(() => {
 				let options = { cwd: workspace.rootPath };
-				let jarPath = workspace.getConfiguration("rubysonari").jarPath;
+				let jarPath = path.resolve(__dirname) + "/../src/resources/rubysonari-0.1-SNAPSHOT.jar";
 				console.log(jarPath);
 
 				let args = [
@@ -42,11 +42,12 @@ export function activate(context: ExtensionContext) {
 
         console.log(args);
         console.log(options);
-        let process = child_process.spawn('/usr/bin/java', args, options);
-        process.stdout.on('data', function (chunk) {
+		let c_process = child_process.spawn('java', args, options);
+        c_process.stdout.on('data', function (chunk) {
 						prepareStatus.text = chunk.toString();
+						console.log(chunk.toString());
         });
-        process.stderr.on('data', (data) => {
+        c_process.stderr.on('data', (data) => {
             console.log(data.toString());
         });
 			});
