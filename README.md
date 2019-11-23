@@ -8,11 +8,8 @@
 
 ## Requirements
 
-  [rubysonari](https://github.com/yyyy7/rubysonari)
+* java 8+
 
 ## Extension Settings
-
-This extension contributes the following settings:
-* `rubysonari.jarPath`: Path to the rubysonari jar file. eg: '/Users/username/rubysonari/xxxx.jar'
 
 
