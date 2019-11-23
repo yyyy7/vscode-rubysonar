@@ -1,7 +1,7 @@
 {
-	"name": "vscode-rubysonar",
-	"displayName": "vscode-rubysonar",
-	"description": "A VS Code extension for rubysonar",
+	"name": "ruby-go-to",
+	"displayName": "Ruby Go-to",
+	"description": "A VS Code extension for Ruby",
 	"version": "0.0.1",
 	"publisher": "yuqi",
 	"engines": {
