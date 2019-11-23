@@ -3,6 +3,7 @@
 	"displayName": "vscode-rubysonar",
 	"description": "A VS Code extension for rubysonar",
 	"version": "0.0.1",
+	"publisher": "yu qi",
 	"engines": {
 		"vscode": "^1.36.0"
 	},
