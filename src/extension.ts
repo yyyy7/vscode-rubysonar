@@ -8,6 +8,7 @@ import * as vscode from "vscode";
 
 import { workspace, Disposable, ExtensionContext} from 'vscode';
 import { LanguageClient, LanguageClientOptions, SettingMonitor, StreamInfo } from 'vscode-languageclient';
+import { AddressInfo } from "net";
 
 export function activate(context: ExtensionContext) {
 	let prepareStatus = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
@@ -33,11 +34,12 @@ export function activate(context: ExtensionContext) {
 				let options = { cwd: workspace.rootPath };
 				let jarPath = path.resolve(__dirname) + "/../src/resources/rubysonari-0.1-SNAPSHOT.jar";
 				console.log(jarPath);
+				const { port } = server.address() as AddressInfo;
 
 				let args = [
 					'-jar',
 					jarPath,
-					server.address().port.toString()
+					port.toString()
 				];
 
         console.log(args);
