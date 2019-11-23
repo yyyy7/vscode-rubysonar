@@ -32,7 +32,7 @@ export function activate(context: ExtensionContext) {
 
 			server.listen(() => {
 				let options = { cwd: workspace.rootPath };
-				let jarPath = path.resolve(__dirname) + "/../src/resources/rubysonari-0.1-SNAPSHOT.jar";
+				let jarPath = path.resolve(__dirname) + "/../rubysonari-0.1-SNAPSHOT.jar";
 				console.log(jarPath);
 				const { port } = server.address() as AddressInfo;
 
