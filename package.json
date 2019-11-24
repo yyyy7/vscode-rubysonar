@@ -2,7 +2,7 @@
 	"name": "ruby-go-to",
 	"displayName": "Ruby Go-to",
 	"description": "A VS Code extension for Ruby",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"publisher": "yuqii",
 	"engines": {
 		"vscode": "^1.36.0"
