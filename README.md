@@ -8,7 +8,10 @@
 
 ## Requirements
 
-* java 8+
+* Java 8+
+
+## Language Server
+* https://github.com/yyyy7/rubysonari
 
 ## Extension Settings
 
